@@ -1,0 +1,5 @@
+### Intellij ###
+.idea/
+
+### OSX ###
+*.DS_Store
