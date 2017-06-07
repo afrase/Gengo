@@ -3,6 +3,7 @@ package repl
 import (
 	"bufio"
 	"fmt"
+	"github.com/afrase/Gengo/evaluator"
 	"github.com/afrase/Gengo/lexer"
 	"github.com/afrase/Gengo/parser"
 	"io"

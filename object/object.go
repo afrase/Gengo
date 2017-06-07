@@ -4,8 +4,8 @@ import "fmt"
 
 const (
 	INTEGER_OBJ = "INTEGER"
- 	BOOLEAN_OBJ = "BOOLEAN"
-	NULL_OBJ = "NULL"
+	BOOLEAN_OBJ = "BOOLEAN"
+	NULL_OBJ    = "NULL"
 )
 
 type ObjectType string
