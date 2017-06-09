@@ -7,7 +7,6 @@ import (
 	"github.com/afrase/Gengo/lexer"
 	"github.com/afrase/Gengo/parser"
 	"io"
-	"github.com/afrase/Gengo/evaluator"
 )
 
 const PROMPT = ">> "
