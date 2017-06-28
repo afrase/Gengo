@@ -4,6 +4,7 @@ import "fmt"
 
 const (
 	INTEGER_OBJ = "INTEGER"
+	FLOAT_OBJ   = "FLOAT"
 	BOOLEAN_OBJ = "BOOLEAN"
 	NULL_OBJ    = "NULL"
 )
@@ -27,6 +28,18 @@ func (i *Integer) Type() ObjectType {
 	return INTEGER_OBJ
 }
 
+type Float struct {
+	Value float64
+}
+
+func (f *Float) Inspect() string {
+	return fmt.Sprintf("%f", f.Value)
+}
+
+func (f *Float) Type() ObjectType {
+	return FLOAT_OBJ
+}
+
 type Boolean struct {
 	Value bool
 }
@@ -39,8 +52,7 @@ func (b *Boolean) Type() ObjectType {
 	return BOOLEAN_OBJ
 }
 
-type Null struct {
-}
+type Null struct{}
 
 func (n *Null) Inspect() string {
 	return "null"
