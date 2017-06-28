@@ -81,6 +81,7 @@ func TestIfElseExpression(t *testing.T) {
 		{"if (1 > 2) { 1 }", nil},
 		{"if (1 > 2) { 1 } else { 2 }", 2},
 		{"if (1 < 2) { 1 } else { 2 }", 1},
+		{"if (null) { 1 }", nil},
 	}
 
 	for _, tt := range tests {

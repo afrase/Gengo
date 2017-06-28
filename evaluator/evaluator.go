@@ -32,9 +32,9 @@ func Eval(node ast.Node) object.Object {
 		return evalStatements(node.Statements)
 	case *ast.IfExpression:
 		return evalIfExpression(node)
+	default:
+		return NULL
 	}
-
-	return nil
 }
 
 func evalStatements(stmts []ast.Statement) object.Object {
