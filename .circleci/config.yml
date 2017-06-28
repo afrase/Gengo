@@ -15,9 +15,9 @@ jobs:
       - run: mkdir -p $TEST_RESULTS
 
       - run:
-        name: Install dependencies
-        command: |
-          go get golang.org/x/tools/cmd/cover; go get github.com/mattn/goveralls
+          name: Install dependencies
+          command: |
+            go get golang.org/x/tools/cmd/cover; go get github.com/mattn/goveralls
 
       - run:
           name: Run unit tests
