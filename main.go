@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/afrase/Gengo/repl"
 	"os"
 	"os/user"
+
+	"github.com/afrase/Gengo/repl"
 )
 
 func main() {

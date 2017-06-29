@@ -1,35 +1,49 @@
 package token
 
-type TokenType string
+// Type A string representing a token
+type Type string
 
+// Token A token in the AST.
 type Token struct {
-	Type    TokenType
+	Type    Type
 	Literal string
 }
 
 const (
+	// ILLEGAL An illegal token.
 	ILLEGAL = "ILLEGAL"
-	EOF     = "EOF"
+	// EOF The end of the file.
+	EOF = "EOF"
+	// IDENT An identifier. (e.g. a, b, foobar, x, y, ...)
+	IDENT = "IDENT"
+	// INT An integer. (e.g. 1, 2, 9539, ...)
+	INT = "INT"
 
-	// Identifiers + literals
-	IDENT = "IDENT" // add, foobar, x, y, ...
-	INT   = "INT"   // 123456
-
-	// Operators
-	ASSIGN   = "="
-	PLUS     = "+"
-	MINUS    = "-"
-	BANG     = "!"
+	// ASSIGN The token for assignment.
+	ASSIGN = "="
+	// PLUS The token for addition.
+	PLUS = "+"
+	// MINUS The token for subtraction.
+	MINUS = "-"
+	// BANG The token for the "bang" opterator.
+	BANG = "!"
+	// ASTERISK The token for multiplication.
 	ASTERISK = "*"
-	SLASH    = "/"
-	EQ       = "=="
-	NOT_EQ   = "!="
+	// SLASH The token for division.
+	SLASH = "/"
+	// EQ The token used to check for equality.
+	EQ = "=="
+	// NOTEQ The token used to check for the opposite of equality.
+	NOTEQ = "!="
 
+	// LT The token for less-than.
 	LT = "<"
+	// GT The token for greater-than.
 	GT = ">"
 
-	// Delimiters
-	COMMA     = ","
+	// COMMA A token used as a delimiter.
+	COMMA = ","
+	// SEMICOLON A token used to denote the end of a statement.
 	SEMICOLON = ";"
 
 	LPAREN = "("
@@ -47,7 +61,7 @@ const (
 	RETURN   = "RETURN"
 )
 
-var keywords = map[string]TokenType{
+var keywords = map[string]Type{
 	"fn":     FUNCTION,
 	"let":    LET,
 	"true":   TRUE,
@@ -57,7 +71,8 @@ var keywords = map[string]TokenType{
 	"return": RETURN,
 }
 
-func LookupIdent(ident string) TokenType {
+// LookupIdent Convert a string to a TokenType
+func LookupIdent(ident string) Type {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}

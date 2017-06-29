@@ -7,7 +7,7 @@ import (
 func TestLookupIdent(t *testing.T) {
 	tests := []struct {
 		input    string
-		expected TokenType
+		expected Type
 	}{
 		{input: "let", expected: LET},
 		{input: "fn", expected: FUNCTION},

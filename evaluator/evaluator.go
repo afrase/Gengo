@@ -5,12 +5,17 @@ import (
 	"github.com/afrase/Gengo/object"
 )
 
+// Define these so the evaluator can use a single NULL, TRUE, FALSE object.
 var (
-	NULL  = &object.Null{}
-	TRUE  = &object.Boolean{Value: true}
+	// NULL Represents a nil object.
+	NULL = &object.Null{}
+	// TRUE Represents a true object.
+	TRUE = &object.Boolean{Value: true}
+	// FALSE Represents a false object.
 	FALSE = &object.Boolean{Value: false}
 )
 
+// Eval Evaluate the AST node.
 func Eval(node ast.Node) object.Object {
 	switch node := node.(type) {
 	case *ast.Program:
@@ -32,6 +37,9 @@ func Eval(node ast.Node) object.Object {
 		return evalStatements(node.Statements)
 	case *ast.IfExpression:
 		return evalIfExpression(node)
+	case *ast.ReturnStatement:
+		val := Eval(node.ReturnValue)
+		return &object.ReturnValue{Value: val}
 	default:
 		return NULL
 	}
@@ -42,6 +50,10 @@ func evalStatements(stmts []ast.Statement) object.Object {
 
 	for _, statement := range stmts {
 		result = Eval(statement)
+
+		if returnValue, ok := result.(*object.ReturnValue); ok {
+			return returnValue.Value
+		}
 	}
 
 	return result
@@ -61,9 +73,8 @@ func evalInfixExpression(op string, left, right object.Object) object.Object {
 		return nativeBoolToBooleanObject(left == right)
 	} else if op == "!=" {
 		return nativeBoolToBooleanObject(left != right)
-	} else {
-		return NULL
 	}
+	return NULL
 }
 
 func evalPrefixExpression(operator string, right object.Object) object.Object {

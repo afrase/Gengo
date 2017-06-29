@@ -3,15 +3,16 @@ package repl
 import (
 	"bufio"
 	"fmt"
+	"io"
+
 	"github.com/afrase/Gengo/evaluator"
 	"github.com/afrase/Gengo/lexer"
 	"github.com/afrase/Gengo/parser"
-	"io"
+	"github.com/afrase/Gengo/token"
 )
 
 const PROMPT = ">> "
 
-//noinspection GoUnusedParameter
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
@@ -24,6 +25,13 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		l := lexer.New(line)
+		l2 := lexer.New(line)
+
+		for tok := l2.NextToken(); tok.Type != token.EOF; tok = l2.NextToken() {
+			io.WriteString(out, fmt.Sprintf("%+v\n", tok))
+			io.WriteString(out, "\n")
+		}
+
 		p := parser.New(l)
 
 		program := p.ParseProgram()
