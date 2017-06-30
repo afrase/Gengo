@@ -13,19 +13,21 @@ type Node interface {
 	String() string
 }
 
-// Statement Represents a statement.
+// Statement represents a statement node.
 type Statement interface {
 	Node
+	// Used to help the compiler tell the difference between a Statement and
+	// an Expression.
 	statementNode()
 }
 
-// Expression Represents an expression.
+// Expression represents an expression node.
 type Expression interface {
 	Node
 	expressionNode()
 }
 
-// Program A program consists of an array of statements.
+// Program consists of an array of statement nodes.
 type Program struct {
 	Statements []Statement
 }
@@ -50,7 +52,7 @@ func (p *Program) String() string {
 	return out.String()
 }
 
-// LetStatement Variable assignment statement.
+// LetStatements are used to assign a value to an identifier.
 type LetStatement struct {
 	Token token.Token
 	Name  *Identifier
@@ -59,7 +61,7 @@ type LetStatement struct {
 
 func (ls *LetStatement) statementNode() {}
 
-// TokenLiteral Returns the literal value of the token `let`.
+// TokenLiteral returns the literal value of the token.
 func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
@@ -233,13 +235,13 @@ func (ie *IfExpression) TokenLiteral() string {
 func (ie *IfExpression) String() string {
 	var out bytes.Buffer
 
-	out.WriteString("if")
+	out.WriteString("if (")
 	out.WriteString(ie.Condition.String())
-	out.WriteString(" ")
+	out.WriteString(") ")
 	out.WriteString(ie.Consequence.String())
 
 	if ie.Alternative != nil {
-		out.WriteString("else ")
+		out.WriteString(" else ")
 		out.WriteString(ie.Alternative.String())
 	}
 
@@ -262,9 +264,11 @@ func (bs *BlockStatement) TokenLiteral() string {
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
 
+	out.WriteString("{ ")
 	for _, s := range bs.Statements {
 		out.WriteString(s.String())
 	}
+	out.WriteString(" }")
 
 	return out.String()
 }
@@ -293,9 +297,7 @@ func (fl *FunctionLiteral) String() string {
 	out.WriteString("(")
 	out.WriteString(strings.Join(params, ", "))
 	out.WriteString(") ")
-	out.WriteString("{ ")
 	out.WriteString(fl.Body.String())
-	out.WriteString(" }")
 
 	return out.String()
 }
