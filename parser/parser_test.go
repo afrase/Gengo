@@ -315,6 +315,35 @@ func TestIfExpression(t *testing.T) {
 	}
 }
 
+func TestParserErrors(t *testing.T) {
+	tests := []struct {
+		input string
+	}{
+		{"if (true { x }"},           // missing right paren in if statement
+		{"if true) { x }"},           // missing right paren in if statement
+		{"if (true) x }"},            // missing left bracket in if statement
+		{"if (true) { x } else x }"}, // missing left bracket in 'else'
+		{"fn a) { x }"},              // missing left paren in function literal
+		{"fn(a { x }"},               // missing right paren in function literal
+		{"fn(a)  x }"},               // missing left bracket in function literal
+		{"add(a, b"},                 // missing right paren in call expression
+		{"let 5"},                    // missing identifier after 'let'
+		{"let a 5"},                  // missing assignment after identifier
+		{"(1 + 2"},                   // missing right paren in grouped expression
+		{"9223372036854775808"},      // max int64 value + 1
+	}
+
+	for _, tt := range tests {
+		l := lexer.New(tt.input)
+		p := New(l)
+		program := p.ParseProgram()
+
+		if len(p.Errors()) == 0 {
+			t.Errorf("Failed to find syntax error in '%s'. Parsed as '%s'", tt.input, program.String())
+		}
+	}
+}
+
 func TestIfElseExpression(t *testing.T) {
 	input := `if (x < y) { x } else { y }`
 
