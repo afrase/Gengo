@@ -7,14 +7,18 @@ import (
 
 	"github.com/afrase/Gengo/evaluator"
 	"github.com/afrase/Gengo/lexer"
+	"github.com/afrase/Gengo/object"
 	"github.com/afrase/Gengo/parser"
 	"github.com/afrase/Gengo/token"
 )
 
+// PROMPT what the REPL prompt shows
 const PROMPT = ">> "
 
+// Start the REPL
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnvironment()
 
 	for {
 		fmt.Print(PROMPT)
@@ -40,7 +44,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
