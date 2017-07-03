@@ -2,9 +2,10 @@ package parser
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/afrase/Gengo/ast"
 	"github.com/afrase/Gengo/lexer"
-	"testing"
 )
 
 func TestLetStatements(t *testing.T) {
@@ -280,7 +281,7 @@ func TestIfExpression(t *testing.T) {
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
-		t.Fatalf("program.Body does not contain %d statements. got=%s\n", 1, len(program.Statements))
+		t.Fatalf("program.Body does not contain %d statements. got=%d\n", 1, len(program.Statements))
 	}
 
 	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
@@ -353,7 +354,7 @@ func TestIfElseExpression(t *testing.T) {
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
-		t.Fatalf("program.Body does not contain %d statements. got=%s\n", 1, len(program.Statements))
+		t.Fatalf("program.Body does not contain %d statements. got=%d\n", 1, len(program.Statements))
 	}
 
 	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)

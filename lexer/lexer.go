@@ -4,6 +4,7 @@ import (
 	"github.com/afrase/Gengo/token"
 )
 
+// Lexer converts text into tokens
 type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
@@ -35,7 +36,7 @@ func (l *Lexer) peekChar() byte {
 	return l.input[l.readPosition]
 }
 
-// NextToken Returns the next token in the Lexer
+// NextToken returns the next token in the Lexer
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
