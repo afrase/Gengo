@@ -32,8 +32,8 @@ func Start(in io.Reader, out io.Writer) {
 		l2 := lexer.New(line)
 
 		for tok := l2.NextToken(); tok.Type != token.EOF; tok = l2.NextToken() {
-			io.WriteString(out, fmt.Sprintf("%+v\n", tok))
-			io.WriteString(out, "\n")
+			_, _ = io.WriteString(out, fmt.Sprintf("%+v\n", tok))
+			_, _ = io.WriteString(out, "\n")
 		}
 
 		p := parser.New(l)
@@ -46,14 +46,14 @@ func Start(in io.Reader, out io.Writer) {
 
 		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n")
+			_, _ = io.WriteString(out, evaluated.Inspect())
+			_, _ = io.WriteString(out, "\n")
 		}
 	}
 }
 
 func printParserErrors(out io.Writer, errors []string) {
 	for _, msg := range errors {
-		io.WriteString(out, "\t"+msg+"\n")
+		_, _ = io.WriteString(out, "\t"+msg+"\n")
 	}
 }

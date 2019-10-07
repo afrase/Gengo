@@ -18,6 +18,8 @@ const (
 	IDENT = "IDENT"
 	// INT An integer. (e.g. 1, 2, 9539, ...)
 	INT = "INT"
+	// STRING A sequence of characters
+	STRING = "STRING"
 
 	// ASSIGN The token for assignment.
 	ASSIGN = "="
@@ -25,7 +27,7 @@ const (
 	PLUS = "+"
 	// MINUS The token for subtraction.
 	MINUS = "-"
-	// BANG The token for the "bang" opterator.
+	// BANG The token for the "bang" operator.
 	BANG = "!"
 	// ASTERISK The token for multiplication.
 	ASTERISK = "*"

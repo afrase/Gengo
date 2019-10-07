@@ -32,8 +32,7 @@ type Program struct {
 	Statements []Statement
 }
 
-// TokenLiteral The literal value of the token.
-// Used only for debugging and testing.
+// TokenLiteral The literal value of the token. Used only for debugging and testing.
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
@@ -52,16 +51,14 @@ func (p *Program) String() string {
 	return out.String()
 }
 
-// LetStatements are used to assign a value to an identifier.
+// LetStatement Are used to assign a value to an identifier.
 type LetStatement struct {
 	Token token.Token
 	Name  *Identifier
 	Value Expression
 }
 
-func (ls *LetStatement) statementNode() {}
-
-// TokenLiteral returns the literal value of the token.
+// TokenLiteral The literal value of the token.
 func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
@@ -76,13 +73,13 @@ func (ls *LetStatement) String() string {
 	return out.String()
 }
 
+func (ls *LetStatement) statementNode() {}
+
 // Identifier The name a value is assigned to.
 type Identifier struct {
 	Token token.Token
 	Value string
 }
-
-func (i *Identifier) expressionNode() {}
 
 // TokenLiteral The literal value of the token.
 func (i *Identifier) TokenLiteral() string {
@@ -93,15 +90,32 @@ func (i *Identifier) String() string {
 	return i.Value
 }
 
+func (i *Identifier) expressionNode() {}
+
+// StringLiteral The value of a string.
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+// TokenLiteral The literal value of the token.
+func (sl *StringLiteral) TokenLiteral() string {
+	return sl.Token.Literal
+}
+
+func (sl *StringLiteral) String() string {
+	return sl.Token.Literal
+}
+
+func (sl *StringLiteral) expressionNode() {}
+
 // ReturnStatement Used to return a value from a function.
 type ReturnStatement struct {
 	Token       token.Token
 	ReturnValue Expression
 }
 
-func (rs *ReturnStatement) statementNode() {}
-
-// TokenLiteral The literal value of the token `return`.
+// TokenLiteral The literal value of the token.
 func (rs *ReturnStatement) TokenLiteral() string {
 	return rs.Token.Literal
 }
@@ -117,13 +131,13 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
+func (rs *ReturnStatement) statementNode() {}
+
 // ExpressionStatement An expression is something that returns a value.
 type ExpressionStatement struct {
 	Token      token.Token // first token of the expression
 	Expression Expression
 }
-
-func (es *ExpressionStatement) statementNode() {}
 
 // TokenLiteral The literal value of the token.
 func (es *ExpressionStatement) TokenLiteral() string {
@@ -137,14 +151,15 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
+func (es *ExpressionStatement) statementNode() {}
+
+// IntegerLiteral A literal integer
 type IntegerLiteral struct {
 	Token token.Token
 	Value int64
 }
 
-func (il *IntegerLiteral) expressionNode() {
-}
-
+// TokenLiteral The literal value of the token.
 func (il *IntegerLiteral) TokenLiteral() string {
 	return il.Token.Literal
 }
@@ -153,16 +168,17 @@ func (il *IntegerLiteral) String() string {
 	return il.Token.Literal
 }
 
-// PrefixExpression Prefixes an expression.
-// Like `-5`, `!true`, `-add(1,2)`
+func (il *IntegerLiteral) expressionNode() {
+}
+
+// PrefixExpression Prefixes an expression. Like `-5`, `!true`, `-add(1,2)`
 type PrefixExpression struct {
 	Token    token.Token
 	Operator string
 	Right    Expression
 }
 
-func (pe *PrefixExpression) expressionNode() {}
-
+// TokenLiteral The literal value of the token.
 func (pe *PrefixExpression) TokenLiteral() string {
 	return pe.Token.Literal
 }
@@ -178,6 +194,9 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 
+func (pe *PrefixExpression) expressionNode() {}
+
+// InfixExpression An infix expression
 type InfixExpression struct {
 	Token    token.Token // The operator token, e.g. +
 	Left     Expression
@@ -185,8 +204,7 @@ type InfixExpression struct {
 	Right    Expression
 }
 
-func (oe *InfixExpression) expressionNode() {}
-
+// TokenLiteral The literal value of the token.
 func (oe *InfixExpression) TokenLiteral() string {
 	return oe.Token.Literal
 }
@@ -203,13 +221,15 @@ func (oe *InfixExpression) String() string {
 	return out.String()
 }
 
+func (oe *InfixExpression) expressionNode() {}
+
+// Boolean A boolean
 type Boolean struct {
 	Token token.Token
 	Value bool
 }
 
-func (b *Boolean) expressionNode() {}
-
+// TokenLiteral The literal value of the token.
 func (b *Boolean) TokenLiteral() string {
 	return b.Token.Literal
 }
@@ -218,6 +238,9 @@ func (b *Boolean) String() string {
 	return b.Token.Literal
 }
 
+func (b *Boolean) expressionNode() {}
+
+// IfExpression An if expression
 type IfExpression struct {
 	Token       token.Token // the 'if' token
 	Condition   Expression
@@ -225,9 +248,7 @@ type IfExpression struct {
 	Alternative *BlockStatement
 }
 
-func (ie *IfExpression) expressionNode() {}
-
-// TokenLiteral Returns the `if` token.
+// TokenLiteral The literal value of the token.
 func (ie *IfExpression) TokenLiteral() string {
 	return ie.Token.Literal
 }
@@ -248,15 +269,15 @@ func (ie *IfExpression) String() string {
 	return out.String()
 }
 
-// BlockStatement Statements in a block of code.
+func (ie *IfExpression) expressionNode() {}
+
+// BlockStatement A block of code
 type BlockStatement struct {
 	Token      token.Token // the { token
 	Statements []Statement
 }
 
-func (bs *BlockStatement) statementNode() {}
-
-// TokenLiteral Returns the token for the begining of a block.
+// TokenLiteral The literal value of the token.
 func (bs *BlockStatement) TokenLiteral() string {
 	return bs.Token.Literal
 }
@@ -273,22 +294,23 @@ func (bs *BlockStatement) String() string {
 	return out.String()
 }
 
+func (bs *BlockStatement) statementNode() {}
+
+// FunctionLiteral A function literal
 type FunctionLiteral struct {
 	Token      token.Token // The 'fn' token
 	Parameters []*Identifier
 	Body       *BlockStatement
 }
 
-func (fl *FunctionLiteral) expressionNode() {}
-
-// TokenLiteral Returns the 'fn' token.
+// TokenLiteral The literal value of the token.
 func (fl *FunctionLiteral) TokenLiteral() string {
 	return fl.Token.Literal
 }
 
 func (fl *FunctionLiteral) String() string {
 	var out bytes.Buffer
-	params := []string{}
+	var params []string
 	for _, p := range fl.Parameters {
 		params = append(params, p.String())
 	}
@@ -302,15 +324,16 @@ func (fl *FunctionLiteral) String() string {
 	return out.String()
 }
 
+func (fl *FunctionLiteral) expressionNode() {}
+
+// CallExpression A call expression
 type CallExpression struct {
 	Token     token.Token // the '(' token
 	Function  Expression  // Identifier or FunctionLiteral
 	Arguments []Expression
 }
 
-func (ce *CallExpression) expressionNode() {}
-
-// TokenLiteral Returns the '(' token.
+// TokenLiteral The literal value of the token.
 func (ce *CallExpression) TokenLiteral() string {
 	return ce.Token.Literal
 }
@@ -330,3 +353,5 @@ func (ce *CallExpression) String() string {
 
 	return out.String()
 }
+
+func (ce *CallExpression) expressionNode() {}

@@ -26,6 +26,9 @@ func TestNextToken(t *testing.T) {
 
 	10 == 10;
 	10 != 9;
+	"foobar"
+	"foo bar"
+	"\"foobar\""
 	`
 
 	tests := []struct {
@@ -105,6 +108,9 @@ func TestNextToken(t *testing.T) {
 		{token.NOTEQ, "!="},
 		{token.INT, "9"},
 		{token.SEMICOLON, ";"},
+		{token.STRING, "foobar"},
+		{token.STRING, "foo bar"},
+		{token.STRING, "\\\"foobar\\\""}, // have to escape the escapes
 		{token.EOF, ""},
 	}
 
