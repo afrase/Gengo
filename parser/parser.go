@@ -136,8 +136,8 @@ func (p *Parser) curTokenIs(t token.Type) bool {
 }
 
 func (p *Parser) curPrecedence() int {
-	if p, ok := precedences[p.curToken.Type]; ok {
-		return p
+	if i, ok := precedences[p.curToken.Type]; ok {
+		return i
 	}
 	return LOWEST
 }
@@ -147,8 +147,8 @@ func (p *Parser) peekTokenIs(t token.Type) bool {
 }
 
 func (p *Parser) peekPrecedence() int {
-	if p, ok := precedences[p.peekToken.Type]; ok {
-		return p
+	if i, ok := precedences[p.peekToken.Type]; ok {
+		return i
 	}
 	return LOWEST
 }
@@ -375,8 +375,8 @@ func (p *Parser) parseFunctionParameters() []*ast.Identifier {
 	for p.peekTokenIs(token.COMMA) {
 		p.nextToken()
 		p.nextToken()
-		ident := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
-		identifiers = append(identifiers, ident)
+		identifier := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+		identifiers = append(identifiers, identifier)
 	}
 
 	if !p.expectPeek(token.RPAREN) {
@@ -393,7 +393,7 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 }
 
 func (p *Parser) parseCallArguments() []ast.Expression {
-	args := []ast.Expression{}
+	var args []ast.Expression
 
 	if p.peekTokenIs(token.RPAREN) {
 		p.nextToken()
