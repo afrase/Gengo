@@ -12,8 +12,7 @@ import (
 	"github.com/afrase/Gengo/token"
 )
 
-// PROMPT what the REPL prompt shows
-const PROMPT = ">> "
+const prompt = ">> "
 
 // Start the REPL
 func Start(in io.Reader, out io.Writer) {
@@ -21,7 +20,7 @@ func Start(in io.Reader, out io.Writer) {
 	env := object.NewEnvironment()
 
 	for {
-		fmt.Print(PROMPT)
+		fmt.Print(prompt)
 		scanned := scanner.Scan()
 		if !scanned {
 			return
@@ -33,11 +32,10 @@ func Start(in io.Reader, out io.Writer) {
 
 		for tok := l2.NextToken(); tok.Type != token.EOF; tok = l2.NextToken() {
 			_, _ = io.WriteString(out, fmt.Sprintf("%+v\n", tok))
-			_, _ = io.WriteString(out, "\n")
 		}
+		_, _ = io.WriteString(out, "\n")
 
 		p := parser.New(l)
-
 		program := p.ParseProgram()
 		if len(p.Errors()) != 0 {
 			printParserErrors(out, p.Errors())

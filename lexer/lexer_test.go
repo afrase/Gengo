@@ -17,6 +17,7 @@ func TestNextToken(t *testing.T) {
 	let result = add(five, ten);
 	!-/*5;
 	5 < 10 > 5;
+	315.143563;
 
 	if (5 < 10) {
 		return true;
@@ -26,6 +27,7 @@ func TestNextToken(t *testing.T) {
 
 	10 == 10;
 	10 != 9;
+	2 ** 8;
 	"foobar"
 	"foo bar"
 	"\"foobar\""
@@ -83,6 +85,8 @@ func TestNextToken(t *testing.T) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
+		{token.FLOAT, "315.143563"},
+		{token.SEMICOLON, ";"},
 		{token.IF, "if"},
 		{token.LPAREN, "("},
 		{token.INT, "5"},
@@ -105,8 +109,12 @@ func TestNextToken(t *testing.T) {
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 		{token.INT, "10"},
-		{token.NOTEQ, "!="},
+		{token.NOT_EQ, "!="},
 		{token.INT, "9"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "2"},
+		{token.POW, "**"},
+		{token.INT, "8"},
 		{token.SEMICOLON, ";"},
 		{token.STRING, "foobar"},
 		{token.STRING, "foo bar"},

@@ -9,15 +9,23 @@ import (
 	"github.com/afrase/Gengo/token"
 )
 
+//goland:noinspection GoUnnecessarilyExportedIdentifiers
 const (
 	_ int = iota
+	// LOWEST precedence
 	LOWEST
-	EQUALS      // ==
-	LESSGREATER // < or >
-	SUM         // +
-	PRODUCT     // *
-	PREFIX      // -X or !X
-	CALL        // myFunction(X)
+	// EQUALS ==
+	EQUALS
+	// LESSGREATER < or >
+	LESSGREATER
+	// SUM +
+	SUM
+	// PRODUCT *
+	PRODUCT
+	// PREFIX -X or !X
+	PREFIX
+	// CALL myFunction(X)
+	CALL
 )
 
 type (
@@ -27,13 +35,14 @@ type (
 
 var precedences = map[token.Type]int{
 	token.EQ:       EQUALS,
-	token.NOTEQ:    EQUALS,
+	token.NOT_EQ:   EQUALS,
 	token.LT:       LESSGREATER,
 	token.GT:       LESSGREATER,
 	token.PLUS:     SUM,
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
+	token.POW:      PRODUCT,
 	token.LPAREN:   CALL,
 }
 
@@ -59,6 +68,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.prefixParseFns = make(map[token.Type]prefixParseFn)
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
 	p.registerPrefix(token.INT, p.parseIntegerLiteral)
+	p.registerPrefix(token.FLOAT, p.parseFloatLiteral)
 	p.registerPrefix(token.BANG, p.parsePrefixExpression)
 	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
 	p.registerPrefix(token.TRUE, p.parseBoolean)
@@ -73,8 +83,9 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.MINUS, p.parseInfixExpression)
 	p.registerInfix(token.SLASH, p.parseInfixExpression)
 	p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+	p.registerInfix(token.POW, p.parseInfixExpression)
 	p.registerInfix(token.EQ, p.parseInfixExpression)
-	p.registerInfix(token.NOTEQ, p.parseInfixExpression)
+	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
@@ -243,6 +254,19 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
 	if err != nil {
 		msg := fmt.Sprintf("could not parse %q as integer", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	lit.Value = value
+	return lit
+}
+
+func (p *Parser) parseFloatLiteral() ast.Expression {
+	lit := &ast.FloatLiteral{Token: p.curToken}
+	value, err := strconv.ParseFloat(p.curToken.Literal, 64)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %q as float", p.curToken.Literal)
 		p.errors = append(p.errors, msg)
 		return nil
 	}

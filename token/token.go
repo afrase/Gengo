@@ -18,6 +18,8 @@ const (
 	IDENT = "IDENT"
 	// INT An integer. (e.g. 1, 2, 9539, ...)
 	INT = "INT"
+	// FLOAT A float
+	FLOAT = "FLOAT"
 	// STRING A sequence of characters
 	STRING = "STRING"
 
@@ -33,10 +35,12 @@ const (
 	ASTERISK = "*"
 	// SLASH The token for division.
 	SLASH = "/"
+	// POW Power of
+	POW = "**"
 	// EQ The token used to check for equality.
 	EQ = "=="
-	// NOTEQ The token used to check for the opposite of equality.
-	NOTEQ = "!="
+	// NOT_EQ The token used to check for the opposite of equality.
+	NOT_EQ = "!="
 
 	// LT The token for less-than.
 	LT = "<"

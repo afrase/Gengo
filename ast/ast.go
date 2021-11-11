@@ -171,6 +171,24 @@ func (il *IntegerLiteral) String() string {
 func (il *IntegerLiteral) expressionNode() {
 }
 
+// FloatLiteral A literal float
+type FloatLiteral struct {
+	Token token.Token
+	Value float64
+}
+
+// TokenLiteral The literal value of the token.
+func (fl *FloatLiteral) TokenLiteral() string {
+	return fl.Token.Literal
+}
+
+func (fl *FloatLiteral) String() string {
+	return fl.Token.Literal
+}
+
+func (fl *FloatLiteral) expressionNode() {
+}
+
 // PrefixExpression Prefixes an expression. Like `-5`, `!true`, `-add(1,2)`
 type PrefixExpression struct {
 	Token    token.Token

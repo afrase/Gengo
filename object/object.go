@@ -33,100 +33,100 @@ type Integer struct {
 	Value int64
 }
 
-// Inspect
+// Inspect A String of the value
 func (i *Integer) Inspect() string {
 	return fmt.Sprintf("%d", i.Value)
 }
 
-// Type
+// Type The object type
 func (i *Integer) Type() ObjectType {
 	return INTEGER_OBJ
 }
 
-// Float
+// Float A float type
 type Float struct {
 	Value float64
 }
 
-// Inspect
+// Inspect A String of the value
 func (f *Float) Inspect() string {
 	return fmt.Sprintf("%f", f.Value)
 }
 
-// Type
+// Type The object type
 func (f *Float) Type() ObjectType {
 	return FLOAT_OBJ
 }
 
-// Boolean
+// Boolean type
 type Boolean struct {
 	Value bool
 }
 
-// Inspect
+// Inspect A string of the value
 func (b *Boolean) Inspect() string {
 	return fmt.Sprintf("%t", b.Value)
 }
 
-// Type
+// Type The object type
 func (b *Boolean) Type() ObjectType {
 	return BOOLEAN_OBJ
 }
 
-// Null
+// Null type
 type Null struct{}
 
-// Inspect
+// Inspect A string of the type
 func (n *Null) Inspect() string {
 	return "null"
 }
 
-// Type
+// Type The object type
 func (n *Null) Type() ObjectType {
 	return NULL_OBJ
 }
 
-// ReturnValue
+// ReturnValue A value returned by a call
 type ReturnValue struct {
 	Value Object
 }
 
-// Type
+// Type The object type
 func (rv *ReturnValue) Type() ObjectType {
 	return RETURN_VALUE_OBJ
 }
 
-// Inspect
+// Inspect A string of the type
 func (rv *ReturnValue) Inspect() string {
 	return rv.Value.Inspect()
 }
 
-// Error
+// Error type
 type Error struct {
 	Message string
 }
 
-// Type
+// Type The object type
 func (e *Error) Type() ObjectType {
 	return ERROR_OBJ
 }
 
-// Inspect
+// Inspect A string of the type
 func (e *Error) Inspect() string {
 	return "ERROR: " + e.Message
 }
 
-// String
+// String type
 type String struct {
 	Value string
 }
 
-// Type
+// Type The object type
 func (s *String) Type() ObjectType {
 	return STRING_OBJ
 }
 
-// Inspect
+// Inspect A string of the type
 func (s *String) Inspect() string {
 	return s.Value
 }

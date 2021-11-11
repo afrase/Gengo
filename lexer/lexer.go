@@ -45,14 +45,20 @@ func (l *Lexer) NextToken() token.Token {
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{Type: token.NOTEQ, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(l.ch)}
 		} else {
 			tok = newToken(token.BANG, l.ch)
 		}
 	case '/':
 		tok = newToken(token.SLASH, l.ch)
 	case '*':
-		tok = newToken(token.ASTERISK, l.ch)
+		if l.peekChar() == '*' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{Type: token.POW, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.ASTERISK, l.ch)
+		}
 	case '<':
 		tok = newToken(token.LT, l.ch)
 	case '>':
@@ -78,8 +84,15 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok // have to return to avoid reading the next char
 		} else if isDigit(l.ch) {
-			tok.Type = token.INT
-			tok.Literal = l.readNumber()
+			num := l.readNumber()
+			if l.ch == '.' {
+				l.readChar()
+				tok.Type = token.FLOAT
+				tok.Literal = num + "." + l.readNumber()
+			} else {
+				tok.Type = token.INT
+				tok.Literal = num
+			}
 			return tok // have to return to avoid reading the next char
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)

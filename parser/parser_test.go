@@ -127,6 +127,34 @@ func TestIntegerLiteralExpression(t *testing.T) {
 	}
 }
 
+func TestFloatLiteralExpression(t *testing.T) {
+	input := "3.14159;"
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program has not enough statements. got=%d", len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T", program.Statements[0])
+	}
+	literal, ok := stmt.Expression.(*ast.FloatLiteral)
+	if !ok {
+		t.Fatalf("exp not *ast.IntegerLiteral. got=%T", stmt.Expression)
+	}
+	if literal.Value != 3.14159 {
+		t.Errorf("literal.Value not %g. got=%g", 3.14159, literal.Value)
+	}
+	if literal.TokenLiteral() != "3.14159" {
+		t.Errorf("literal.TokenLiteral not %s. got=%s", "3.14159", literal.TokenLiteral())
+	}
+}
+
 func TestParsingPrefixExpressions(t *testing.T) {
 	prefixTests := []struct {
 		input        string
@@ -134,7 +162,9 @@ func TestParsingPrefixExpressions(t *testing.T) {
 		integerValue interface{}
 	}{
 		{"!5;", "!", 5},
+		{"!1.5;", "!", 1.5},
 		{"-15;", "-", 15},
+		{"-1.5;", "-", 1.5},
 		{"!true", "!", true},
 		{"!false", "!", false},
 	}
@@ -179,11 +209,13 @@ func TestParsingInfixExpressions(t *testing.T) {
 		{"5 + 5;", 5, "+", 5},
 		{"5 - 5;", 5, "-", 5},
 		{"5 * 5;", 5, "*", 5},
+		{"5 ** 5;", 5, "**", 5},
 		{"5 / 5;", 5, "/", 5},
 		{"5 > 5;", 5, ">", 5},
 		{"5 < 5;", 5, "<", 5},
 		{"5 == 5;", 5, "==", 5},
 		{"5 != 5;", 5, "!=", 5},
+		{"1.5 * 1.5;", 1.5, "*", 1.5},
 		{"true == true", true, "==", true},
 		{"true != false", true, "!=", false},
 		{"false == false", false, "==", false},
@@ -252,6 +284,7 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		{"1 + (2 + 3) + 4", "((1 + (2 + 3)) + 4)"},
 		{"(5 + 5) * 2", "((5 + 5) * 2)"},
 		{"2 / (5 + 5)", "(2 / (5 + 5))"},
+		{"2 ** (1.5 + 5)", "(2 ** (1.5 + 5))"},
 		{"-(5 + 5)", "(-(5 + 5))"},
 		{"!(true == true)", "(!(true == true))"},
 		{"a + add(b * c) + d", "((a + add((b * c))) + d)"},
@@ -581,6 +614,27 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 	return true
 }
 
+func testFloatLiteral(t *testing.T, fl ast.Expression, value float64) bool {
+	float, ok := fl.(*ast.FloatLiteral)
+
+	if !ok {
+		t.Errorf("fl not *ast.FloatLiteral. got=%T", fl)
+		return false
+	}
+
+	if float.Value != value {
+		t.Errorf("float.Value not %g. got=%g", value, float.Value)
+		return false
+	}
+
+	if float.TokenLiteral() != fmt.Sprintf("%g", value) {
+		t.Errorf("float.TokenLiteral not %g. got=%s", value, float.TokenLiteral())
+		return false
+	}
+
+	return true
+}
+
 func checkParserErrors(t *testing.T, p *Parser) {
 	errors := p.Errors()
 	if len(errors) == 0 {
@@ -645,6 +699,10 @@ func testLiteralExpression(t *testing.T, exp ast.Expression, expected interface{
 		return testIntegerLiteral(t, exp, int64(v))
 	case int64:
 		return testIntegerLiteral(t, exp, v)
+	case float32:
+		return testFloatLiteral(t, exp, float64(v))
+	case float64:
+		return testFloatLiteral(t, exp, v)
 	case string:
 		return testIdentifier(t, exp, v)
 	case bool:
