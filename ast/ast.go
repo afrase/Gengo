@@ -16,8 +16,7 @@ type Node interface {
 // Statement represents a statement node.
 type Statement interface {
 	Node
-	// Used to help the compiler tell the difference between a Statement and
-	// an Expression.
+	// Used to help the compiler tell the difference between a Statement and an Expression.
 	statementNode()
 }
 
@@ -41,6 +40,7 @@ func (p *Program) TokenLiteral() string {
 	return ""
 }
 
+// String The string value of the program.
 func (p *Program) String() string {
 	var out bytes.Buffer
 
@@ -63,13 +63,16 @@ func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
 
+// String The string value of the let statement.
 func (ls *LetStatement) String() string {
 	var out bytes.Buffer
+
 	out.WriteString(ls.TokenLiteral() + " " + ls.Name.String() + " = ")
 	if ls.Value != nil {
 		out.WriteString(ls.Value.String())
 	}
 	out.WriteString(";")
+
 	return out.String()
 }
 
@@ -86,6 +89,7 @@ func (i *Identifier) TokenLiteral() string {
 	return i.Token.Literal
 }
 
+// String The string value of the identifier.
 func (i *Identifier) String() string {
 	return i.Value
 }
@@ -103,6 +107,7 @@ func (sl *StringLiteral) TokenLiteral() string {
 	return sl.Token.Literal
 }
 
+// String The string value of the string.
 func (sl *StringLiteral) String() string {
 	return sl.Token.Literal
 }
@@ -128,6 +133,7 @@ func (rs *ReturnStatement) String() string {
 		out.WriteString(rs.ReturnValue.String())
 	}
 	out.WriteString(";")
+
 	return out.String()
 }
 
@@ -202,14 +208,7 @@ func (pe *PrefixExpression) TokenLiteral() string {
 }
 
 func (pe *PrefixExpression) String() string {
-	var out bytes.Buffer
-
-	out.WriteString("(")
-	out.WriteString(pe.Operator)
-	out.WriteString(pe.Right.String())
-	out.WriteString(")")
-
-	return out.String()
+	return "(" + pe.Operator + pe.Right.String() + ")"
 }
 
 func (pe *PrefixExpression) expressionNode() {}
@@ -228,15 +227,7 @@ func (oe *InfixExpression) TokenLiteral() string {
 }
 
 func (oe *InfixExpression) String() string {
-	var out bytes.Buffer
-
-	out.WriteString("(")
-	out.WriteString(oe.Left.String())
-	out.WriteString(" " + oe.Operator + " ")
-	out.WriteString(oe.Right.String())
-	out.WriteString(")")
-
-	return out.String()
+	return "(" + oe.Left.String() + " " + oe.Operator + " " + oe.Right.String() + ")"
 }
 
 func (oe *InfixExpression) expressionNode() {}
@@ -274,9 +265,7 @@ func (ie *IfExpression) TokenLiteral() string {
 func (ie *IfExpression) String() string {
 	var out bytes.Buffer
 
-	out.WriteString("if (")
-	out.WriteString(ie.Condition.String())
-	out.WriteString(") ")
+	out.WriteString("if (" + ie.Condition.String() + ") ")
 	out.WriteString(ie.Consequence.String())
 
 	if ie.Alternative != nil {
@@ -329,6 +318,7 @@ func (fl *FunctionLiteral) TokenLiteral() string {
 func (fl *FunctionLiteral) String() string {
 	var out bytes.Buffer
 	var params []string
+
 	for _, p := range fl.Parameters {
 		params = append(params, p.String())
 	}
@@ -358,8 +348,8 @@ func (ce *CallExpression) TokenLiteral() string {
 
 func (ce *CallExpression) String() string {
 	var out bytes.Buffer
-
 	var args []string
+
 	for _, a := range ce.Arguments {
 		args = append(args, a.String())
 	}
