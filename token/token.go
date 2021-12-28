@@ -18,9 +18,9 @@ const (
 	IDENT = "IDENT"
 	// INT An integer. (e.g. 1, 2, 9539, ...)
 	INT = "INT"
-	// FLOAT A float
+	// FLOAT A float. (e.g. 0.1, 3.1459, ...)
 	FLOAT = "FLOAT"
-	// STRING A sequence of characters
+	// STRING A sequence of characters. (e.g. foo, bar, foo1bar, ...)
 	STRING = "STRING"
 
 	// ASSIGN The token for assignment.
@@ -35,12 +35,12 @@ const (
 	ASTERISK = "*"
 	// SLASH The token for division.
 	SLASH = "/"
-	// POW Power of
+	// POW The token for Power of.
 	POW = "**"
 	// EQ The token used to check for equality.
 	EQ = "=="
-	// NOT_EQ The token used to check for the opposite of equality.
-	NOT_EQ = "!="
+	// NOTEQ The token used to check for the opposite of equality.
+	NOTEQ = "!="
 
 	// LT The token for less-than.
 	LT = "<"
@@ -52,19 +52,31 @@ const (
 	// SEMICOLON A token used to denote the end of a statement.
 	SEMICOLON = ";"
 
+	// LPAREN The token for an opening parenthesis.
 	LPAREN = "("
+	// RPAREN The token for a closing parenthesis.
 	RPAREN = ")"
+	// LBRACE The token for an opening curly brace.
 	LBRACE = "{"
+	// RBRACE The token for a closing curly brace.
 	RBRACE = "}"
 
 	// Keywords
+
+	// FUNCTION The token for a function.
 	FUNCTION = "FUNCTION"
-	LET      = "LET"
-	TRUE     = "TRUE"
-	FALSE    = "FALSE"
-	IF       = "IF"
-	ELSE     = "ELSE"
-	RETURN   = "RETURN"
+	// LET The token for identifier assignment.
+	LET = "LET"
+	// TRUE The token for a "true" value.
+	TRUE = "TRUE"
+	// FALSE The token for a "false" value.
+	FALSE = "FALSE"
+	// IF The token for an "if" statement.
+	IF = "IF"
+	// ELSE The token for an "else" statement.
+	ELSE = "ELSE"
+	// RETURN The token for the return of a function.
+	RETURN = "RETURN"
 )
 
 var keywords = map[string]Type{
