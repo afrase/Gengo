@@ -110,7 +110,7 @@ func evalBlockStatement(block *ast.BlockStatement, env *object.Environment) obje
 
 		if result != nil {
 			rt := result.Type()
-			if rt == object.RETURN_VALUE_OBJ || rt == object.ERROR_OBJ {
+			if rt == object.RETURN_VALUE || rt == object.ERROR {
 				return result
 			}
 		}
@@ -127,9 +127,9 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 }
 
 func evalInfixExpression(op string, left, right object.Object) object.Object {
-	if left.Type() == object.INTEGER_OBJ && right.Type() == object.INTEGER_OBJ {
+	if left.Type() == object.INTEGER && right.Type() == object.INTEGER {
 		return evalIntegerInfixExpression(op, left, right)
-	} else if left.Type() == object.FLOAT_OBJ && right.Type() == object.FLOAT_OBJ {
+	} else if left.Type() == object.FLOAT && right.Type() == object.FLOAT {
 		return evalFloatInfixExpression(op, left, right)
 	} else if op == "==" {
 		return nativeBoolToBooleanObject(left == right)
@@ -167,10 +167,10 @@ func evalBangOperatorExpression(right object.Object) object.Object {
 
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 	switch right.Type() {
-	case object.INTEGER_OBJ:
+	case object.INTEGER:
 		value := right.(*object.Integer).Value
 		return &object.Integer{Value: -value}
-	case object.FLOAT_OBJ:
+	case object.FLOAT:
 		value := right.(*object.Float).Value
 		return &object.Float{Value: -value}
 	default:
@@ -282,7 +282,7 @@ func newError(format string, a ...interface{}) *object.Error {
 
 func isError(obj object.Object) bool {
 	if obj != nil {
-		return obj.Type() == object.ERROR_OBJ
+		return obj.Type() == object.ERROR
 	}
 	return false
 }

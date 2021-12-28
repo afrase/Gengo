@@ -3,20 +3,20 @@ package object
 import "fmt"
 
 const (
-	// STRING_OBJ Represents a string object
-	STRING_OBJ = "STRING"
-	// INTEGER_OBJ Represents an integer object
-	INTEGER_OBJ = "INTEGER"
-	// FLOAT_OBJ Represents a float object
-	FLOAT_OBJ = "FLOAT"
-	// BOOLEAN_OBJ Represents a boolean object
-	BOOLEAN_OBJ = "BOOLEAN"
-	// NULL_OBJ Represents a null object
-	NULL_OBJ = "NULL"
-	// RETURN_VALUE_OBJ Represents the return value
-	RETURN_VALUE_OBJ = "RETURN_VALUE"
-	// ERROR_OBJ Represents an error object
-	ERROR_OBJ = "ERROR"
+	// STRING Represents a string object.
+	STRING = "STRING"
+	// INTEGER Represents an integer object.
+	INTEGER = "INTEGER"
+	// FLOAT Represents a float object.
+	FLOAT = "FLOAT"
+	// BOOLEAN Represents a boolean object.
+	BOOLEAN = "BOOLEAN"
+	// NULL Represents a null object.
+	NULL = "NULL"
+	// RETURN_VALUE Represents the return value.
+	RETURN_VALUE = "RETURN_VALUE"
+	// ERROR Represents an error object.
+	ERROR = "ERROR"
 )
 
 // ObjectType The base object type
@@ -40,7 +40,7 @@ func (i *Integer) Inspect() string {
 
 // Type The object type
 func (i *Integer) Type() ObjectType {
-	return INTEGER_OBJ
+	return INTEGER
 }
 
 // Float A float type
@@ -55,7 +55,7 @@ func (f *Float) Inspect() string {
 
 // Type The object type
 func (f *Float) Type() ObjectType {
-	return FLOAT_OBJ
+	return FLOAT
 }
 
 // Boolean type
@@ -70,7 +70,7 @@ func (b *Boolean) Inspect() string {
 
 // Type The object type
 func (b *Boolean) Type() ObjectType {
-	return BOOLEAN_OBJ
+	return BOOLEAN
 }
 
 // Null type
@@ -83,7 +83,7 @@ func (n *Null) Inspect() string {
 
 // Type The object type
 func (n *Null) Type() ObjectType {
-	return NULL_OBJ
+	return NULL
 }
 
 // ReturnValue A value returned by a call
@@ -93,7 +93,7 @@ type ReturnValue struct {
 
 // Type The object type
 func (rv *ReturnValue) Type() ObjectType {
-	return RETURN_VALUE_OBJ
+	return RETURN_VALUE
 }
 
 // Inspect A string of the type
@@ -108,7 +108,7 @@ type Error struct {
 
 // Type The object type
 func (e *Error) Type() ObjectType {
-	return ERROR_OBJ
+	return ERROR
 }
 
 // Inspect A string of the type
@@ -123,7 +123,7 @@ type String struct {
 
 // Type The object type
 func (s *String) Type() ObjectType {
-	return STRING_OBJ
+	return STRING
 }
 
 // Inspect A string of the type
