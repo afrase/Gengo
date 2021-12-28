@@ -13,6 +13,8 @@ const (
 	BOOLEAN = "BOOLEAN"
 	// NULL Represents a null object.
 	NULL = "NULL"
+	// BUILTIN Represents a built-in function.
+	BUILTIN = "BUILTIN"
 	// RETURN_VALUE Represents the return value.
 	RETURN_VALUE = "RETURN_VALUE"
 	// ERROR Represents an error object.
@@ -129,4 +131,22 @@ func (s *String) Type() ObjectType {
 // Inspect A string of the type.
 func (s *String) Inspect() string {
 	return s.Value
+}
+
+// BuiltinFunction type.
+type BuiltinFunction func(args ...Object) Object
+
+// Builtin type.
+type Builtin struct {
+	Fn BuiltinFunction
+}
+
+// Type The object's type.
+func (b *Builtin) Type() ObjectType {
+	return BUILTIN
+}
+
+// Inspect A string of the type.
+func (b *Builtin) Inspect() string {
+	return "builtin function"
 }
