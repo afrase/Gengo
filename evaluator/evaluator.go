@@ -34,6 +34,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.Boolean:
 		return nativeBoolToBooleanObject(node.Value)
 
+	case *ast.StringLiteral:
+		return &object.String{Value: node.Value}
+
 	case *ast.IntegerLiteral:
 		return &object.Integer{Value: node.Value}
 
@@ -127,18 +130,33 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 }
 
 func evalInfixExpression(op string, left, right object.Object) object.Object {
-	if left.Type() == object.INTEGER && right.Type() == object.INTEGER {
+	// The use of a switch statement is purely to make adding new conditions easier.
+	switch {
+	case left.Type() == object.INTEGER && right.Type() == object.INTEGER:
 		return evalIntegerInfixExpression(op, left, right)
-	} else if left.Type() == object.FLOAT && right.Type() == object.FLOAT {
+	case left.Type() == object.FLOAT && right.Type() == object.FLOAT:
 		return evalFloatInfixExpression(op, left, right)
-	} else if op == "==" {
+	case left.Type() == object.STRING && right.Type() == object.STRING:
+		return evalStringInfixExpression(op, left, right)
+	case op == "==":
 		return nativeBoolToBooleanObject(left == right)
-	} else if op == "!=" {
+	case op == "!=":
 		return nativeBoolToBooleanObject(left != right)
-	} else if left.Type() != right.Type() {
+	case left.Type() != right.Type():
 		return newError("type mismatch: %s %s %s", left.Type(), op, right.Type())
+	default:
+		return newError("unknown operator: %s %s %s", left.Type(), op, right.Type())
 	}
-	return newError("unknown operator: %s %s %s", left.Type(), op, right.Type())
+}
+
+func evalStringInfixExpression(op string, left object.Object, right object.Object) object.Object {
+	if op != "+" {
+		return newError("unknown operator: %s %s %s", left.Type(), op, right.Type())
+	}
+
+	leftVal := left.(*object.String).Value
+	rightVal := right.(*object.String).Value
+	return &object.String{Value: leftVal + rightVal}
 }
 
 func evalPrefixExpression(operator string, right object.Object) object.Object {
