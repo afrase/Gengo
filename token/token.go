@@ -60,6 +60,10 @@ const (
 	LBRACE = "{"
 	// RBRACE The token for a closing curly brace.
 	RBRACE = "}"
+	// LBRACKET The token for an opening bracket.
+	LBRACKET = "["
+	// RBRACKET The token for a closing bracket.
+	RBRACKET = "]"
 
 	// Keywords
 

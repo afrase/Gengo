@@ -217,8 +217,8 @@ func TestFunctionObject(t *testing.T) {
 	if fn.Parameters[0].String() != "x" {
 		t.Fatalf("parameter is not 'x'. got=%q", fn.Parameters[0])
 	}
-	// TODO(aaron): should the body have the curly braces?
-	expectedBody := "{ (x + 2) }"
+
+	expectedBody := "(x + 2)"
 	if fn.Body.String() != expectedBody {
 		t.Fatalf("body is not %q. got=%q", expectedBody, fn.Body.String())
 	}

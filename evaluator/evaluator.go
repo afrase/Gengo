@@ -302,7 +302,7 @@ func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Obje
 }
 
 func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object {
-	// TODO(afrase): null shouldn't be an identifier
+	// FIXME(aaron): null shouldn't be an identifier
 	if node.Value == "null" {
 		return NULL
 	}

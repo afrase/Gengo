@@ -40,7 +40,6 @@ func (p *Program) TokenLiteral() string {
 	return ""
 }
 
-// String The string value of the program.
 func (p *Program) String() string {
 	var out bytes.Buffer
 
@@ -63,7 +62,6 @@ func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
 
-// String The string value of the let statement.
 func (ls *LetStatement) String() string {
 	var out bytes.Buffer
 
@@ -89,7 +87,6 @@ func (i *Identifier) TokenLiteral() string {
 	return i.Token.Literal
 }
 
-// String The string value of the identifier.
 func (i *Identifier) String() string {
 	return i.Value
 }
@@ -107,7 +104,6 @@ func (sl *StringLiteral) TokenLiteral() string {
 	return sl.Token.Literal
 }
 
-// String The string value of the string.
 func (sl *StringLiteral) String() string {
 	return sl.Token.Literal
 }
@@ -213,7 +209,7 @@ func (pe *PrefixExpression) String() string {
 
 func (pe *PrefixExpression) expressionNode() {}
 
-// InfixExpression An infix expression
+// InfixExpression An infix expression.
 type InfixExpression struct {
 	Token    token.Token // The operator token, e.g. +
 	Left     Expression
@@ -232,7 +228,7 @@ func (oe *InfixExpression) String() string {
 
 func (oe *InfixExpression) expressionNode() {}
 
-// Boolean A boolean
+// Boolean A boolean value.
 type Boolean struct {
 	Token token.Token
 	Value bool
@@ -249,7 +245,7 @@ func (b *Boolean) String() string {
 
 func (b *Boolean) expressionNode() {}
 
-// IfExpression An if expression
+// IfExpression An if expression.
 type IfExpression struct {
 	Token       token.Token // the 'if' token
 	Condition   Expression
@@ -265,12 +261,11 @@ func (ie *IfExpression) TokenLiteral() string {
 func (ie *IfExpression) String() string {
 	var out bytes.Buffer
 
-	out.WriteString("if (" + ie.Condition.String() + ") ")
-	out.WriteString(ie.Consequence.String())
+	out.WriteString("if (" + ie.Condition.String() + ")")
+	out.WriteString(" { " + ie.Consequence.String() + " }")
 
 	if ie.Alternative != nil {
-		out.WriteString(" else ")
-		out.WriteString(ie.Alternative.String())
+		out.WriteString(" else { " + ie.Alternative.String() + " }")
 	}
 
 	return out.String()
@@ -278,7 +273,7 @@ func (ie *IfExpression) String() string {
 
 func (ie *IfExpression) expressionNode() {}
 
-// BlockStatement A block of code
+// BlockStatement A block of code.
 type BlockStatement struct {
 	Token      token.Token // the { token
 	Statements []Statement
@@ -292,18 +287,16 @@ func (bs *BlockStatement) TokenLiteral() string {
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
 
-	out.WriteString("{ ")
 	for _, s := range bs.Statements {
 		out.WriteString(s.String())
 	}
-	out.WriteString(" }")
 
 	return out.String()
 }
 
 func (bs *BlockStatement) statementNode() {}
 
-// FunctionLiteral A function literal
+// FunctionLiteral A function literal.
 type FunctionLiteral struct {
 	Token      token.Token // The 'fn' token
 	Parameters []*Identifier
@@ -326,15 +319,16 @@ func (fl *FunctionLiteral) String() string {
 	out.WriteString(fl.TokenLiteral())
 	out.WriteString("(")
 	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") ")
+	out.WriteString(") { ")
 	out.WriteString(fl.Body.String())
+	out.WriteString(" }")
 
 	return out.String()
 }
 
 func (fl *FunctionLiteral) expressionNode() {}
 
-// CallExpression A call expression
+// CallExpression A call expression.
 type CallExpression struct {
 	Token     token.Token // the '(' token
 	Function  Expression  // Identifier or FunctionLiteral
@@ -363,3 +357,44 @@ func (ce *CallExpression) String() string {
 }
 
 func (ce *CallExpression) expressionNode() {}
+
+// ArrayLiteral An array literal.
+type ArrayLiteral struct {
+	Token    token.Token // the '[' token
+	Elements []Expression
+}
+
+// TokenLiteral The literal value of the token.
+func (al *ArrayLiteral) TokenLiteral() string {
+	return al.Token.Literal
+}
+
+func (al *ArrayLiteral) String() string {
+	var elements []string
+
+	for _, el := range al.Elements {
+		elements = append(elements, el.String())
+	}
+
+	return "[" + strings.Join(elements, ", ") + "]"
+}
+
+func (al *ArrayLiteral) expressionNode() {}
+
+// IndexExpression An expression to get a value in an array.
+type IndexExpression struct {
+	Token token.Token // the [ token
+	Left  Expression
+	Index Expression
+}
+
+// TokenLiteral The literal value of the token.
+func (ie *IndexExpression) TokenLiteral() string {
+	return ie.Token.Literal
+}
+
+func (ie *IndexExpression) String() string {
+	return "(" + ie.Left.String() + "[" + ie.Index.String() + "])"
+}
+
+func (ie *IndexExpression) expressionNode() {}
