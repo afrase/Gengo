@@ -1,6 +1,12 @@
 package object
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"strings"
+
+	"github.com/afrase/Gengo/ast"
+)
 
 const (
 	// STRING Represents a string object.
@@ -13,6 +19,8 @@ const (
 	BOOLEAN = "BOOLEAN"
 	// NULL Represents a null object.
 	NULL = "NULL"
+	// FUNCTION Represents a function.
+	FUNCTION = "FUNCTION"
 	// BUILTIN Represents a built-in function.
 	BUILTIN = "BUILTIN"
 	// RETURN_VALUE Represents the return value.
@@ -131,6 +139,35 @@ func (s *String) Type() ObjectType {
 // Inspect A string of the type.
 func (s *String) Inspect() string {
 	return s.Value
+}
+
+// Function type.
+type Function struct {
+	Parameters []*ast.Identifier
+	Body       *ast.BlockStatement
+	Env        *Environment
+}
+
+// Type The object's type.
+func (f *Function) Type() ObjectType {
+	return FUNCTION
+}
+
+// Inspect A string of the type.
+func (f *Function) Inspect() string {
+	var out bytes.Buffer
+	var params []string
+
+	for _, p := range f.Parameters {
+		params = append(params, p.String())
+	}
+	out.WriteString("fn(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") {\n")
+	out.WriteString(f.Body.String())
+	out.WriteString("\n}")
+
+	return out.String()
 }
 
 // BuiltinFunction type.

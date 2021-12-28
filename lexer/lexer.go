@@ -85,6 +85,7 @@ func (l *Lexer) NextToken() token.Token {
 			return tok // have to return to avoid reading the next char
 		} else if isDigit(l.ch) {
 			num := l.readNumber()
+			// If the current character is a period then it's a float.
 			if l.ch == '.' {
 				l.readChar()
 				tok.Type = token.FLOAT
