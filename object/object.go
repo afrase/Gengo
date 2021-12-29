@@ -17,6 +17,8 @@ const (
 	FLOAT = "FLOAT"
 	// BOOLEAN Represents a boolean object.
 	BOOLEAN = "BOOLEAN"
+	// ARRAY Represents an array object.
+	ARRAY = "ARRAY"
 	// NULL Represents a null object.
 	NULL = "NULL"
 	// FUNCTION Represents a function.
@@ -139,6 +141,27 @@ func (s *String) Type() ObjectType {
 // Inspect A string of the type.
 func (s *String) Inspect() string {
 	return s.Value
+}
+
+// Array type.
+type Array struct {
+	Elements []Object
+}
+
+// Type The object's type.
+func (ao *Array) Type() ObjectType {
+	return ARRAY
+}
+
+// Inspect A string of the type.
+func (ao *Array) Inspect() string {
+	var elements []string
+
+	for _, e := range ao.Elements {
+		elements = append(elements, e.Inspect())
+	}
+
+	return "[" + strings.Join(elements, ", ") + "]"
 }
 
 // Function type.
