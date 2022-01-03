@@ -9,7 +9,6 @@ import (
 	"github.com/afrase/Gengo/lexer"
 	"github.com/afrase/Gengo/object"
 	"github.com/afrase/Gengo/parser"
-	"github.com/afrase/Gengo/token"
 )
 
 const prompt = ">> "
@@ -28,12 +27,12 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		l := lexer.New(line)
-		l2 := lexer.New(line)
 
+		/*l2 := lexer.New(line)
 		for tok := l2.NextToken(); tok.Type != token.EOF; tok = l2.NextToken() {
 			_, _ = io.WriteString(out, fmt.Sprintf("%+v\n", tok))
 		}
-		_, _ = io.WriteString(out, "\n")
+		_, _ = io.WriteString(out, "\n")*/
 
 		p := parser.New(l)
 		program := p.ParseProgram()

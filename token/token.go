@@ -51,6 +51,8 @@ const (
 	COMMA = ","
 	// SEMICOLON A token used to denote the end of a statement.
 	SEMICOLON = ";"
+	// COLON A token used for hash literals.
+	COLON = ":"
 
 	// LPAREN The token for an opening parenthesis.
 	LPAREN = "("
