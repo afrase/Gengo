@@ -381,6 +381,29 @@ func (al *ArrayLiteral) String() string {
 
 func (al *ArrayLiteral) expressionNode() {}
 
+// HashLiteral A hash literal.
+type HashLiteral struct {
+	Token token.Token // the '{' token
+	Pairs map[Expression]Expression
+}
+
+// TokenLiteral The literal value of the token.
+func (hl *HashLiteral) TokenLiteral() string {
+	return hl.Token.Literal
+}
+
+func (hl *HashLiteral) String() string {
+	var pairs []string
+
+	for key, value := range hl.Pairs {
+		pairs = append(pairs, key.String()+":"+value.String())
+	}
+
+	return "{" + strings.Join(pairs, ", ") + "}"
+}
+
+func (hl *HashLiteral) expressionNode() {}
+
 // IndexExpression An expression to get a value in an array.
 type IndexExpression struct {
 	Token token.Token // the [ token
