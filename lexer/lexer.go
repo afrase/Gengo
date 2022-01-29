@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"github.com/afrase/Gengo/token"
+	"Gengo/token"
 )
 
 // Lexer converts text into tokens

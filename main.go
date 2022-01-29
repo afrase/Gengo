@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/afrase/Gengo/repl"
+	"Gengo/repl"
 )
 
 func main() {

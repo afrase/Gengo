@@ -1,3 +1,3 @@
-module github.com/afrase/Gengo
+module Gengo
 
 go 1.13

@@ -1,6 +1,6 @@
 package evaluator
 
-import "github.com/afrase/Gengo/object"
+import "Gengo/object"
 
 var builtins = map[string]*object.Builtin{
 	"len":   {Fn: lenFunc},

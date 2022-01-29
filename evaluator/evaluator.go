@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/afrase/Gengo/ast"
-	"github.com/afrase/Gengo/object"
+	"Gengo/ast"
+	"Gengo/object"
 )
 
 // Define these so the evaluator can use a single NULL, TRUE, FALSE object.

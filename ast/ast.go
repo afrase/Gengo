@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/afrase/Gengo/token"
+	"Gengo/token"
 )
 
 // Node A single node in the AST.

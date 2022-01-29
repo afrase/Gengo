@@ -3,7 +3,7 @@ package lexer
 import (
 	"testing"
 
-	"github.com/afrase/Gengo/token"
+	"Gengo/token"
 )
 
 func TestNextToken(t *testing.T) {

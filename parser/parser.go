@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/afrase/Gengo/ast"
-	"github.com/afrase/Gengo/lexer"
-	"github.com/afrase/Gengo/token"
+	"Gengo/ast"
+	"Gengo/lexer"
+	"Gengo/token"
 )
 
 //goland:noinspection GoUnnecessarilyExportedIdentifiers

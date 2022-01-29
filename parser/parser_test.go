@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/afrase/Gengo/ast"
-	"github.com/afrase/Gengo/lexer"
+	"Gengo/ast"
+	"Gengo/lexer"
 )
 
 func TestLetStatements(t *testing.T) {

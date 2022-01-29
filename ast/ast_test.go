@@ -3,7 +3,7 @@ package ast
 import (
 	"testing"
 
-	"github.com/afrase/Gengo/token"
+	"Gengo/token"
 )
 
 func TestString(t *testing.T) {

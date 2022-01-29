@@ -3,9 +3,9 @@ package evaluator
 import (
 	"testing"
 
-	"github.com/afrase/Gengo/lexer"
-	"github.com/afrase/Gengo/object"
-	"github.com/afrase/Gengo/parser"
+	"Gengo/lexer"
+	"Gengo/object"
+	"Gengo/parser"
 )
 
 func TestEvalIntegerExpression(t *testing.T) {

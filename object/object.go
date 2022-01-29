@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/afrase/Gengo/ast"
+	"Gengo/ast"
 )
 
 const (

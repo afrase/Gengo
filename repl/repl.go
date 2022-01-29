@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/afrase/Gengo/evaluator"
-	"github.com/afrase/Gengo/lexer"
-	"github.com/afrase/Gengo/object"
-	"github.com/afrase/Gengo/parser"
+	"Gengo/evaluator"
+	"Gengo/lexer"
+	"Gengo/object"
+	"Gengo/parser"
 )
 
 const prompt = ">> "
