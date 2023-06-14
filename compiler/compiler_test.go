@@ -23,8 +23,9 @@ func TestIntegerArithmetic(t *testing.T) {
 			input:             "1 + 2",
 			expectedConstants: []interface{}{1, 2},
 			expectedInstructions: []code.Instructions{
+				code.Make(code.OpConstant, 0),
 				code.Make(code.OpConstant, 1),
-				code.Make(code.OpConstant, 2),
+				code.Make(code.OpAdd),
 			},
 		},
 	}
@@ -58,6 +59,7 @@ func runCompilerTests(t *testing.T, tests []compilerTestCase) {
 	}
 }
 
+//goland:noinspection GoUnusedParameter
 func testConstants(t *testing.T, expected []interface{}, actual []object.Object) error {
 	if len(expected) != len(actual) {
 		return fmt.Errorf("wrong number of constants. got=%d, want=%d", len(actual), len(expected))
@@ -83,7 +85,7 @@ func testIntegerObject(expected int64, actual object.Object) error {
 	}
 
 	if result.Value != expected {
-		return fmt.Errorf("object has wrong value. got=%d, want=%d", result.Value, expected)
+		return fmt.Errorf("object has wrong value. got =%d, want=%d", result.Value, expected)
 	}
 
 	return nil
@@ -93,12 +95,12 @@ func testInstructions(expected []code.Instructions, actual code.Instructions) er
 	concatenated := concatInstructions(expected)
 
 	if len(actual) != len(concatenated) {
-		return fmt.Errorf("wrong instructions length.\nwant=%q\ngot=%q", concatenated, actual)
+		return fmt.Errorf("wrong instructions length.\nwant=%q\ngot =%q", concatenated, actual)
 	}
 
 	for i, ins := range concatenated {
 		if actual[i] != ins {
-			return fmt.Errorf("wrong instruction at %d.\nwant=%q\ngot=%q", i, ins, actual[i])
+			return fmt.Errorf("wrong instruction at %d.\nwant=%q\ngot =%q", i, ins, actual[i])
 		}
 	}
 
