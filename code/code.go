@@ -26,6 +26,10 @@ const (
 	OpMul
 	// OpDiv is for division.
 	OpDiv
+	// OpTrue tells the VM to push a true value onto the stack.
+	OpTrue
+	// OpFalse tells the VM to push a false value onto the stack.
+	OpFalse
 )
 
 // Definition of each opcode.
@@ -41,6 +45,8 @@ var definitions = map[Opcode]*Definition{
 	OpSub:      {"OpSub", []int{}},
 	OpMul:      {"OpMul", []int{}},
 	OpDiv:      {"OpDiv", []int{}},
+	OpTrue:     {"OpTrue", []int{}},
+	OpFalse:    {"OpFalse", []int{}},
 }
 
 // Lookup returns the definition for a given opcode.
