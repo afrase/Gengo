@@ -15,9 +15,17 @@ type Opcode byte
 const (
 	// OpConstant stores the index of a constant in the constant pool.
 	OpConstant Opcode = iota
+	// OpPop tells the VM to pop the topmost element off of the stack.
+	OpPop
 	// OpAdd tells the VM to pop the two topmost elements off the stack,
 	// add them together and push the result back on to the stack.
 	OpAdd
+	// OpSub is the same as OpAdd except for subtraction.
+	OpSub
+	// OpMul is the same but for multiplication.
+	OpMul
+	// OpDiv is for division.
+	OpDiv
 )
 
 // Definition of each opcode.
@@ -28,7 +36,11 @@ type Definition struct {
 
 var definitions = map[Opcode]*Definition{
 	OpConstant: {"OpConstant", []int{2}},
+	OpPop:      {"OpPop", []int{}},
 	OpAdd:      {"OpAdd", []int{}},
+	OpSub:      {"OpSub", []int{}},
+	OpMul:      {"OpMul", []int{}},
+	OpDiv:      {"OpDiv", []int{}},
 }
 
 // Lookup returns the definition for a given opcode.

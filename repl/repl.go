@@ -5,16 +5,60 @@ import (
 	"fmt"
 	"io"
 
+	"Gengo/compiler"
 	"Gengo/evaluator"
 	"Gengo/lexer"
 	"Gengo/object"
 	"Gengo/parser"
+	"Gengo/vm"
 )
 
 const prompt = ">> "
 
-// Start the REPL
-func Start(in io.Reader, out io.Writer) {
+func StartVM(in io.Reader, out io.Writer) {
+	scanner := bufio.NewScanner(in)
+
+	for {
+		fmt.Print(prompt)
+		scanned := scanner.Scan()
+		if !scanned {
+			return
+		}
+
+		line := scanner.Text()
+		l := lexer.New(line)
+		p := parser.New(l)
+
+		program := p.ParseProgram()
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
+		}
+
+		comp := compiler.New()
+		err := comp.Compile(program)
+		if err != nil {
+			_, _ = fmt.Fprintf(out, "Woops! Compilation failed:\n %s\n", err)
+			continue
+		}
+
+		machine := vm.New(comp.Bytecode())
+		err = machine.Run()
+		if err != nil {
+			_, _ = fmt.Fprintf(out, "Woops! Executing bytecode failed:\n %s\n", err)
+			continue
+		}
+
+		lastPopped := machine.LastPoppedStackElem()
+		_, _ = io.WriteString(out, lastPopped.Inspect())
+		_, _ = io.WriteString(out, "\n")
+	}
+}
+
+// StartEval the REPL
+//
+//goland:noinspection GoUnusedExportedFunction
+func StartEval(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
 
@@ -50,7 +94,7 @@ func Start(in io.Reader, out io.Writer) {
 }
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, " parser errors:\n")
+	_, _ = io.WriteString(out, " parser errors:\n")
 	for _, msg := range errors {
 		_, _ = io.WriteString(out, "\t"+msg+"\n")
 	}
