@@ -15,6 +15,7 @@ import (
 
 const prompt = ">> "
 
+// StartVM a REPL with and use the VM.
 func StartVM(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
