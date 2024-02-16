@@ -30,6 +30,9 @@ const (
 	OpTrue
 	// OpFalse tells the VM to push a false value onto the stack.
 	OpFalse
+	OpEqual
+	OpNotEqual
+	OpGreaterThan
 )
 
 // Definition of each opcode.
@@ -39,14 +42,17 @@ type Definition struct {
 }
 
 var definitions = map[Opcode]*Definition{
-	OpConstant: {"OpConstant", []int{2}},
-	OpPop:      {"OpPop", []int{}},
-	OpAdd:      {"OpAdd", []int{}},
-	OpSub:      {"OpSub", []int{}},
-	OpMul:      {"OpMul", []int{}},
-	OpDiv:      {"OpDiv", []int{}},
-	OpTrue:     {"OpTrue", []int{}},
-	OpFalse:    {"OpFalse", []int{}},
+	OpConstant:    {"OpConstant", []int{2}},
+	OpPop:         {"OpPop", []int{}},
+	OpAdd:         {"OpAdd", []int{}},
+	OpSub:         {"OpSub", []int{}},
+	OpMul:         {"OpMul", []int{}},
+	OpDiv:         {"OpDiv", []int{}},
+	OpTrue:        {"OpTrue", []int{}},
+	OpFalse:       {"OpFalse", []int{}},
+	OpEqual:       {"OpEqual", []int{}},
+	OpNotEqual:    {"OpNotEqual", []int{}},
+	OpGreaterThan: {"OpGreaterThan", []int{}},
 }
 
 // Lookup returns the definition for a given opcode.
