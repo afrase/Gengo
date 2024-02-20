@@ -30,9 +30,16 @@ const (
 	OpTrue
 	// OpFalse tells the VM to push a false value onto the stack.
 	OpFalse
+	// OpEqual tells the VM to equally compares two topmost elements on the stack.
 	OpEqual
+	// OpNotEqual tells the VM to perform a not equal comparison between two values.
 	OpNotEqual
+	// OpGreaterThan tells the VM to perform a greater than comparison between two values.
 	OpGreaterThan
+	// OpMinus tells the VM to negate an integer.
+	OpMinus
+	// OpBang tells the VM to negate booleans.
+	OpBang
 )
 
 // Definition of each opcode.
@@ -53,6 +60,8 @@ var definitions = map[Opcode]*Definition{
 	OpEqual:       {"OpEqual", []int{}},
 	OpNotEqual:    {"OpNotEqual", []int{}},
 	OpGreaterThan: {"OpGreaterThan", []int{}},
+	OpMinus:       {"OpMinus", []int{}},
+	OpBang:        {"OpBang", []int{}},
 }
 
 // Lookup returns the definition for a given opcode.
