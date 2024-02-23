@@ -46,6 +46,10 @@ const (
 	OpJump
 	// OpNull stores the null value in the operand stack.
 	OpNull
+	// OpGetGlobal stores the index of a global variable to be retrieved.
+	OpGetGlobal
+	// OpSetGlobal stores the index of a global variable in the global variables array.
+	OpSetGlobal
 )
 
 // Definition of each opcode.
@@ -71,6 +75,8 @@ var definitions = map[Opcode]*Definition{
 	OpJumpNotTruthy: {"OpJumpNotTruthy", []int{2}},
 	OpJump:          {"OpJump", []int{2}},
 	OpNull:          {"OpNull", []int{}},
+	OpGetGlobal:     {"OpGetGlobal", []int{2}},
+	OpSetGlobal:     {"OpSetGlobal", []int{2}},
 }
 
 // Lookup returns the definition for a given opcode.
